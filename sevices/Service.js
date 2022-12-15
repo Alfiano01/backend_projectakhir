@@ -27,7 +27,7 @@ const login = async (email) => {
 }
 const verify = async (email) => {
     try {
-        const data = await query.query(`SELECT * FROM users where email=$1`, [email])
+        const data = await query.query(`SELECT * FROM users where email=$1;`, [email])
     } catch (error) {
         return error
     }
