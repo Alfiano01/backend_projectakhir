@@ -19,7 +19,7 @@ const register = async (username, email, password) => {
 }
 const login = async (email, password) => {
     try {
-        const cek = await query.query('SELECT * FROM users where username=$1;', [email])
+        const cek = await query.query('SELECT * FROM users where email=$1;', [email])
         return cek
     } catch (error) {
         error
@@ -27,7 +27,7 @@ const login = async (email, password) => {
 }
 const verify = async (email) => {
     try {
-        const data = await query.query(`SELECT * FROM users where username=$1`, [email])
+        const data = await query.query(`SELECT * FROM users where email=$1`, [email])
     } catch (error) {
         return error
     }
@@ -71,7 +71,7 @@ const insertKelompok = async(bidang_lomba, nama_team, ketua, nim, email, asal_se
     try {
         const anggota_satu = await query.query(`SELECT * FROM anggota_satu where nama_satu=$1`, [nama_satu])
         const anggota_dua = await query.query(`SELECT * FROM anggota_satu where nama_dua=$1`, [nama_dua])
-        await db.query('INSERT INTO req_kelompok(bidang_lomba, nama_team, ketua, nim, email, asal_sekolah, alamat, ktm, anggota_satu, anggota_dua) VALUES ($1,$2,$3,$4,$5,$6,$7, $8, $9);',
+        await db.query('INSERT INTO reg_kelompok(bidang_lomba, nama_team, ketua, nim, email, asal_universitas,kontak, alamat, ktm, anggota_satu, anggota_dua) VALUES ($1,$2,$3,$4,$5,$6,$7, $8, $9);',
                 [bidang_lomba, nama_team, ketua, nim, email, asal_sekolah, alamat, ktm, anggota_satu, anggota_dua])
     } catch(error) {
         return error
@@ -80,7 +80,7 @@ const insertKelompok = async(bidang_lomba, nama_team, ketua, nim, email, asal_se
 
 const insertIndividu = async(bidang_lomba, nama, nim, email, asal_sekolah, alamat, ktm) => {
     try {
-        await db.query('INSERT INTO req_individu(bidang_lomba, nama, nim, email, asal_sekolah, alamat, ktm) VALUES ($1,$2,$3,$4,$5,$6,$7);', [bidang_lomba, nama, nim, email, asal_sekolah, alamat, ktm])
+        await db.query('INSERT INTO reg_individu(bidang_lomba, nama, nim, email,kontak, asal_universitas, alamat, ktm) VALUES ($1,$2,$3,$4,$5,$6,$7);', [bidang_lomba, nama, nim, email, asal_sekolah, alamat, ktm])
     } catch(error) {
         return error
     }
@@ -88,7 +88,7 @@ const insertIndividu = async(bidang_lomba, nama, nim, email, asal_sekolah, alama
 
 const nomorUrutIndividu = async(email) => {
     try{
-        const id_individu =  await db.query('SELECT id FROM req_individu WHERE email=$1;', [email])
+        const id_individu =  await db.query('SELECT id FROM reg_individu WHERE email=$1;', [email])
         let id = id_individu.rows[0].id
         await query.query('INSERT INTO nomorurut(id_individu) VALUES ($1);', [id])
     } catch(error) {
@@ -98,7 +98,7 @@ const nomorUrutIndividu = async(email) => {
 
 const nomorUrutKelompok = async(email) => {
     try {
-        const id_kelompok = await query.query('SELECT id FROM req_kelompok WHERE email=$1;', [email])
+        const id_kelompok = await query.query('SELECT id FROM reg_kelompok WHERE email=$1;', [email])
         let id = id_kelompok.rows[0].id
         await query.query('INSERT INTO nomorurut(id_kelompok) VALUES ($1);', [id])
     } catch (error) {
