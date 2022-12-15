@@ -32,7 +32,7 @@ const verify = async (email) => {
         return error
     }
 }
-const updateDaftar = async(email) => {
+const updateDaftar = async(email) => { 
     try{
         await query.query(`UPDATE users SET cek_daftar = 'terdaftar' WHERE email=$1;`, [email])
     } catch (error) {
