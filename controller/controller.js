@@ -26,7 +26,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await service.login(email, password)
+        const user = await service.login(email)
         if (user.rowCount > 0) {
             const validPass = await bcrypt.compare(password, user.rows[0].password)
             if (validPass) {
