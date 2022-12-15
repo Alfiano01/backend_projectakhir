@@ -26,7 +26,8 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await service.login(email)
+//         const user = await service.login(email)
+        const  user = await db.query('SELECT * FROM users WHERE email=$1;', [email])
         if (user.rowCount > 0) {
             const validPass = await bcrypt.compare(password, user.rows[0].password)
             if (validPass) {
