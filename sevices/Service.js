@@ -19,8 +19,8 @@ const register = async (username, email, password) => {
 }
 const login = async (email, password) => {
     try {
-        const cek = await query.query('SELECT * FROM users where email=$1;', [email])
-        return cek
+        const login = await query.query('SELECT * FROM users where email=$1;', [email])
+        return login
     } catch (error) {
         error
     }
